@@ -7,6 +7,9 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
 
     @Override
     public void append(DequeNode node) {
+        if(node == null) {
+            throw new RuntimeException("Append : Can not add a not existing node");
+        }
 
         if(first == null) {
             first = node;
@@ -20,6 +23,10 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
 
     @Override
     public void appendLeft(DequeNode node) {
+
+        if(node == null) {
+            throw new RuntimeException("Append : Can not add a not existing node");
+        }
 
         if(first == null) {
             first = node;
@@ -81,7 +88,7 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
         DequeNode aux = first;
         int sz = 0;
 
-        while(aux != last) {
+        while(aux != null) {
             aux = aux.getNext();
             sz++;
         }
