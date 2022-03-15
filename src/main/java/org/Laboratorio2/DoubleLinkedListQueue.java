@@ -48,9 +48,14 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
             throw new RuntimeException("Empty list : Can not delete first");
         }
 
-        DequeNode aux = first.getNext();
-        aux.setPrevious(null);
-        first = aux;
+        if(this.size() == 1) {
+            first = null;
+            last = null;
+        } else {
+            DequeNode aux = first.getNext();
+            aux.setPrevious(null);
+            first = aux;
+        }
 
     }
 
