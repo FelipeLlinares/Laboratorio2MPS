@@ -8,6 +8,9 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DequeNodeTest {
 
+    @BeforeEach
+
+
     @Test
     public void getItemShouldReturnNodeItem(){
         DequeNode<Integer> node = new DequeNode<>(8,null,null);

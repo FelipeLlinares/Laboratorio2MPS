@@ -7,7 +7,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class DoubleLinkedListQueueTest {
 
-    private DoubleLinkedListQueue<DequeNode<Integer>> list;
+    private DoubleLinkedListQueue<Integer> list;
 
     @BeforeEach
     public void setup() {

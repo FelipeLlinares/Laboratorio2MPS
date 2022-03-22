@@ -6,7 +6,7 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
     private DequeNode<T> last;
 
     @Override
-    public void append(DequeNode node) {
+    public void append(DequeNode<T> node) {
         if(node == null) {
             throw new RuntimeException("Append : Can not add a not existing node");
         }
