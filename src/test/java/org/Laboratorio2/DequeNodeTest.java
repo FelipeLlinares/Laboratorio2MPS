@@ -1,6 +1,6 @@
 package org.Laboratorio2;
 
-import org.junit.jupiter.api.AfterEach;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,18 +23,16 @@ class DequeNodeTest {
     public void getNextShouldReturnNodeNext(){
         DequeNode<Integer> next = new DequeNode<>(10,null,null);
         DequeNode<Integer> node = new DequeNode<>(8,next,null);
-        DequeNode<Integer> expectedValue = next;
         DequeNode<Integer> obtainedValue = node.getNext();
-        assertEquals(expectedValue,obtainedValue);
+        assertEquals(next,obtainedValue);
     }
 
     @Test
     public void getPreviousShouldReturnNodePrevious(){
-        DequeNode<Integer> previous = new DequeNode(5,null,null);
+        DequeNode<Integer> previous = new DequeNode<>(5,null,null);
         DequeNode<Integer> node = new DequeNode<>(8,null,previous);
-        DequeNode<Integer> expectedValue = previous;
         DequeNode<Integer> obtainedValue = node.getPrevious();
-        assertEquals(expectedValue,obtainedValue);
+        assertEquals(previous,obtainedValue);
     }
 
     @Test
@@ -74,7 +72,7 @@ class DequeNodeTest {
 
     @Test
     public void isFirstNodeShouldReturnFalseWhenPreviousNotNull(){
-        DequeNode<Integer> previous = new DequeNode(5,null,null);
+        DequeNode<Integer> previous = new DequeNode<>(5,null,null);
         DequeNode<Integer> node = new DequeNode<>(8,null,previous);
         boolean expectedValue = false;
         boolean obtainedValue = node.isFirstNode();
@@ -91,7 +89,7 @@ class DequeNodeTest {
 
     @Test
     public void isLastNodeShouldReturnFalseWhenNextNotNull(){
-        DequeNode<Integer> next = new DequeNode(5,null,null);
+        DequeNode<Integer> next = new DequeNode<>(5,null,null);
         DequeNode<Integer> node = new DequeNode<>(8,next,null);
         boolean expectedValue = false;
         boolean obtainedValue = node.isLastNode();
@@ -100,8 +98,8 @@ class DequeNodeTest {
 
     @Test
     public void isNotATerminalNodeShouldReturnTrueWhenNextAndPreviousNotNull(){
-        DequeNode<Integer> next = new DequeNode(5,null,null);
-        DequeNode<Integer> previous = new DequeNode(7,null,null);
+        DequeNode<Integer> next = new DequeNode<>(5,null,null);
+        DequeNode<Integer> previous = new DequeNode<>(7,null,null);
         DequeNode<Integer> node = new DequeNode<>(8,next,previous);
         boolean expectedValue = true;
         boolean obtainedValue = node.isNotATerminalNode();
@@ -110,7 +108,7 @@ class DequeNodeTest {
 
     @Test
     public void isNotATerminalNodeShouldReturnFalseWhenNextNull(){
-        DequeNode<Integer> previous = new DequeNode(7,null,null);
+        DequeNode<Integer> previous = new DequeNode<>(7,null,null);
         DequeNode<Integer> node = new DequeNode<>(8,null,previous);
         boolean expectedValue = false;
         boolean obtainedValue = node.isNotATerminalNode();
@@ -119,7 +117,7 @@ class DequeNodeTest {
 
     @Test
     public void isNotATerminalNodeShouldReturnFalseWhenPreviousNull(){
-        DequeNode<Integer> next = new DequeNode(5,null,null);
+        DequeNode<Integer> next = new DequeNode<>(5,null,null);
         DequeNode<Integer> node = new DequeNode<>(8,next,null);
         boolean expectedValue = false;
         boolean obtainedValue = node.isNotATerminalNode();

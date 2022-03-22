@@ -26,7 +26,7 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
     }
 
     @Override
-    public void appendLeft(DequeNode node) {
+    public void appendLeft(DequeNode<T> node) {
 
         if(node == null) {
             throw new RuntimeException("Append : Can not add a not existing node");
@@ -56,7 +56,7 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
             first = null;
             last = null;
         } else {
-            DequeNode aux = first.getNext();
+            DequeNode<T> aux = first.getNext();
             aux.setPrevious(null);
             first = aux;
         }
@@ -75,7 +75,7 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
 
         } else {
 
-            DequeNode aux = last.getPrevious();
+            DequeNode<T> aux = last.getPrevious();
             aux.setNext(null);
             last = aux;
 
@@ -83,18 +83,18 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
     }
 
     @Override
-    public DequeNode peekFirst() {
+    public DequeNode<T> peekFirst() {
         return first;
     }
 
     @Override
-    public DequeNode peekLast() {
+    public DequeNode<T> peekLast() {
         return last;
     }
 
     @Override
     public int size() {
-        DequeNode aux = first;
+        DequeNode<T> aux = first;
         int sz = 0;
 
         while(aux != null) {
@@ -112,7 +112,7 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
             throw new RuntimeException("Out of bounds index on getAt(): " + position);
         }
 
-        DequeNode aux = first;
+        DequeNode<T> aux = first;
         int i = 0;
 
         while(i<position) {
@@ -125,7 +125,7 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
 
     @Override
     public DequeNode<T> find(T item) {
-        DequeNode aux = first;
+        DequeNode<T> aux = first;
 
         while(aux != null && !aux.getItem().equals(item) ) {
             aux = aux.getNext();
@@ -160,7 +160,7 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
         }
     }
 
-    private void changeNodes(DequeNode node1,DequeNode node2){
+    private void changeNodes(DequeNode<T> node1,DequeNode<T> node2){
         node1.setNext(node2.getNext());
         node1.getPrevious().setNext(node2);
         node2.setNext(node1);
