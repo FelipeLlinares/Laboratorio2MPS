@@ -1,7 +1,5 @@
 package org.Laboratorio2;
 
-import jdk.jshell.execution.StreamingExecutionControl;
-
 import java.util.Comparator;
 
 public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
@@ -9,18 +7,34 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
     private DequeNode<T> first;
     private DequeNode<T> last;
 
+    public DoubleLinkedListQueue() {
+        first = null;
+        last = null;
+    }
+
+    public DoubleLinkedListQueue(DoubleLinkedListQueue<T> list) {
+        DequeNode<T> aux = list.peekFirst();
+
+        while(aux != null) {
+            DequeNode<T> node = new DequeNode<>(aux.getItem(),null,null);
+            this.append(node);
+            aux = aux.getNext();
+        }
+
+    }
+
     @Override
     public void append(DequeNode<T> node) {
         if(node == null) {
             throw new RuntimeException("Append : Can not add a not existing node");
         }
-
-        if(first == null) {
-            first = node;
-            last = node;
-        } else {
-            node.setPrevious(last);
-            last.setNext(node);
+        if(!nodeIsInList(node)){
+            if(first == null) {
+                first = node;
+            } else {
+                node.setPrevious(last);
+                last.setNext(node);
+            }
             last = node;
         }
     }
@@ -32,17 +46,16 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
             throw new RuntimeException("Append : Can not add a not existing node");
         }
 
-        if(first == null) {
-            first = node;
-            last = node;
-        } else {
-
-            first.setPrevious(node);
-            node.setNext(first);
-
-            first = node;
+        if(!nodeIsInList(node)){
+            if(first == null) {
+                first = node;
+                last = node;
+            } else {
+                first.setPrevious(node);
+                node.setNext(first);
+                first = node;
+            }
         }
-
     }
 
     @Override
@@ -74,11 +87,9 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
             last = null;
 
         } else {
-
             DequeNode<T> aux = last.getPrevious();
             aux.setNext(null);
             last = aux;
-
         }
     }
 
@@ -104,6 +115,7 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
         return sz;
     }
 
+    //GetAt lanzará una excepción si la posición no esta en el rango 0 a size()-1
     @Override
     public DequeNode<T> getAt(int position) {
         if(position < 0){
@@ -123,26 +135,42 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
         return aux;
     }
 
+    //Find devolverá null si el item no se encuentra en la lista
     @Override
     public DequeNode<T> find(T item) {
         DequeNode<T> aux = first;
 
-        while(aux != null && !aux.getItem().equals(item) ) {
+        while(aux != null && !aux.getItem().equals(item)) {
             aux = aux.getNext();
         }
         return aux;
     }
 
+    //Delete no tendrá ningún efecto si el nodo no está en la lista, así como si esta está vacía
     @Override
     public void delete(DequeNode<T> node) {
-        if(node.isFirstNode()){
-            deleteFirst();
-        }else if(node.isLastNode()){
-            deleteLast();
-        }else{
-            node.getPrevious().setNext(node.getNext());
-            node.getNext().setPrevious(node.getPrevious());
+        if(nodeIsInList(node)){
+            if(node.isFirstNode()){
+                deleteFirst();
+            }else if(node.isLastNode()){
+                deleteLast();
+            }else{
+                node.getPrevious().setNext(node.getNext());
+                node.getNext().setPrevious(node.getPrevious());
+            }
         }
+    }
+
+    private boolean nodeIsInList(DequeNode<T> node){
+        DequeNode<T> aux = first;
+        boolean isIn = false;
+        while(aux != null && !isIn){
+            if(aux.equals(node)){
+                isIn = true;
+            }
+            aux = aux.getNext();
+        }
+        return isIn;
     }
 
     @Override
