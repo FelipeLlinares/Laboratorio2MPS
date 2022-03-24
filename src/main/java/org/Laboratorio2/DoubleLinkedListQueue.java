@@ -121,7 +121,7 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
         if(position < 0){
             throw new RuntimeException("Negative index on getAt(): " + position);
         }else if(position > this.size()-1){
-            throw new RuntimeException("Out of bounds index on getAt(): " + position);
+            throw new RuntimeException("Out of bounds index on getAt(): " + position + " because size is " + this.size());
         }
 
         DequeNode<T> aux = first;
@@ -179,7 +179,6 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
             for (int limit = this.size() - 1; limit > 0; limit--) {
                 for (int firstIndex = 0; firstIndex < limit; firstIndex++) {
                     int secondIndex = firstIndex + 1;
-
                     if (comparator.compare(this.getAt(firstIndex).getItem(),this.getAt(secondIndex).getItem()) > 0) {
                         changeNodes(this.getAt(firstIndex),this.getAt(secondIndex));
                     }
@@ -189,11 +188,25 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
     }
 
     private void changeNodes(DequeNode<T> node1,DequeNode<T> node2){
-        node1.setNext(node2.getNext());
-        node1.getPrevious().setNext(node2);
-        node2.setNext(node1);
+
+        if(!node1.isFirstNode()){
+            node1.getPrevious().setNext(node2);
+        }else{
+            first = node2;
+        }
+
+        if(!node2.isLastNode()){
+            node2.getNext().setPrevious(node1);
+        }else{
+            last = node1;
+        }
+
         node2.setPrevious(node1.getPrevious());
+        node1.setNext(node2.getNext());
         node1.setPrevious(node2);
-        node1.getNext().setPrevious(node1);
+        node2.setNext(node1);
+
     }
+
+
 }

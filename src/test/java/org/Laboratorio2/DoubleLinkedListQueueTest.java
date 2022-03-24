@@ -448,6 +448,35 @@ class DoubleLinkedListQueueTest {
         assertEquals(list.size(),aux.size());
     }
 
+    @Test
+    public void sortShouldSortListByComparatorParameter(){
+        DequeNode<Integer> node1 = new DequeNode<>(2,null,null);
+        DequeNode<Integer> node2 = new DequeNode<>(4,null,null);
+        DequeNode<Integer> node3 = new DequeNode<>(6,null,null);
+        DequeNode<Integer> node4 = new DequeNode<>(8,null,null);
+
+        list.append(node3);
+        list.append(node2);
+        list.append(node4);
+        list.append(node1);
+
+        DoubleLinkedListQueue<Integer> aux = new DoubleLinkedListQueue<>(list);
+
+
+        list.sort(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o1 - o2;
+            }
+        });
+
+        int[] array = new int[]{3,1,0,2};
+
+        for(int i=0;i<list.size();i++){
+            assertEquals(list.getAt(i).getItem(),aux.getAt(array[i]).getItem());
+        }
+    }
+
 
 
 
