@@ -29,8 +29,10 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
             throw new RuntimeException("Append : Can not add a not existing node");
         }
         if(!nodeIsInList(node)){
+            node.setNext(null);
             if(first == null) {
                 first = node;
+                node.setPrevious(null);
             } else {
                 node.setPrevious(last);
                 last.setNext(node);
@@ -47,7 +49,9 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
         }
 
         if(!nodeIsInList(node)){
+            node.setPrevious(null);
             if(first == null) {
+                node.setNext(null);
                 first = node;
                 last = node;
             } else {
@@ -60,7 +64,6 @@ public class DoubleLinkedListQueue<T> implements DoubleEndedQueue<T>{
 
     @Override
     public void deleteFirst() {
-
         if(first == null) {
             throw new RuntimeException("Empty list : Can not delete first");
         }

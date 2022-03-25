@@ -4,8 +4,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.*;
 import java.util.Comparator;
-
-
 import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,47 +17,34 @@ class DoubleLinkedListQueueTest {
     }
 
 
+    //Tests de append
     @Test
-    public void shouldThrowExceptionWhenAppendNullNode() {
+    public void appendShouldThrowExceptionWheNullNode() {
         assertThrows(RuntimeException.class, () -> list.append(null));
     }
 
     @Test
-    public void appendNodeWhenEmptyListShouldSetNewNodeAsTheFirstOne() {
+    public void appendShouldSetNewNodeAsTheFirstAndLastWhenEmptyList() {
         DequeNode<Integer> expectedValue = new DequeNode<>(1, null, null);
         list.append(expectedValue);
-        DequeNode<Integer> obtainedValue = list.peekLast();
+        DequeNode<Integer> obtainedValue = list.peekFirst();
+        assertEquals(expectedValue, obtainedValue);
+        obtainedValue = list.peekLast();
         assertEquals(expectedValue, obtainedValue);
     }
 
     @Test
-    public void appendNodeWhenEmptyListShouldHaveSize1() {
-        int expectedValue = 1;
-        list.append(new DequeNode<>(1, null, null));
-        int obtainedValue = list.size();
-        assertEquals(expectedValue, obtainedValue);
-    }
-
-    @Test
-    public void appendNodeWhenOnlyOneElementIsInTheListShouldSetNewNodeAsTheLastOne() {
+    public void appendShouldSetNewNodeAsTheLastOneWhenListSize1() {
         DequeNode<Integer> expectedValue = new DequeNode<>(2, null, null);
         list.append(new DequeNode<>(1, null, null));
         list.append(expectedValue);
         DequeNode<Integer> obtainedValue = list.peekLast();
         assertEquals(expectedValue, obtainedValue);
+        assertEquals(expectedValue,list.peekFirst().getNext());
     }
 
     @Test
-    public void appendNodeWhenOnlyOneElementIsInTheListShouldHaveSize2() {
-        int expectedValue = 2;
-        list.append(new DequeNode<>(1, null, null));
-        list.append(new DequeNode<>(2, null, null));
-        int obtainedValue = list.size();
-        assertEquals(expectedValue, obtainedValue);
-    }
-
-    @Test
-    public void appendNodeShouldSetNewNodeAsTheLastOne() {
+    public void appendShouldSetNewNodeAsTheLastOne() {
         list.append(new DequeNode<>(1, null, null));
         list.append(new DequeNode<>(2, null, null));
         list.append(new DequeNode<>(3, null, null));
@@ -70,23 +55,10 @@ class DoubleLinkedListQueueTest {
 
         DequeNode<Integer> obtainedValue = list.peekLast();
         assertEquals(expectedValue, obtainedValue);
-        assertEquals(5,list.size());
     }
 
     @Test
-    public void appendNodeShouldIncrementSizeBy1() {
-        list.append(new DequeNode<>(1, null, null));
-        list.append(new DequeNode<>(2, null, null));
-        list.append(new DequeNode<>(3, null, null));
-        list.append(new DequeNode<>(4, null, null));
-        int expectedValue = list.size() + 1;
-        list.append(new DequeNode<>(5, null, null));
-        int obtainedValue = list.size();
-        assertEquals(expectedValue, obtainedValue);
-    }
-
-    @Test
-    public void appendNodeShouldDoNothingIfNodeIsThere(){
+    public void appendShouldDoNothingIfNodeIsThere(){
         DequeNode<Integer> node = new DequeNode<>(1,null,null);
         list.append(node);
         list.append(node);
@@ -94,32 +66,58 @@ class DoubleLinkedListQueueTest {
         list.append(node);
         DequeNode<Integer> obtainedValue = list.peekLast();
         assertEquals(node, obtainedValue);
-        assertEquals(1,list.size());
+        obtainedValue = list.peekFirst();
+        assertEquals(node, obtainedValue);
     }
 
     @Test
-    public void shouldThrowExceptionWhenAppendLeftNullNode() {
+    public void appendNodeWithReferencesToNextAndPreviousToEmptyListIgnoresReferences(){
+        DequeNode<Integer> next = new DequeNode<>(2, null, null);
+        DequeNode<Integer> previous = new DequeNode<>(2, null, null);
+        list.append(new DequeNode<>(1, next, previous));
+
+        assertEquals(list.peekFirst(),list.peekLast());
+        assertNull(list.peekFirst().getPrevious());
+        assertNull(list.peekLast().getNext());
+    }
+
+    @Test
+    public void appendNodeWithReferencesToNextAndPreviousToListIgnoresReferences(){
+        list.append(new DequeNode<>(8,null,null));
+        DequeNode<Integer> previous = new DequeNode<>(5,null,null);
+        list.append(previous);
+
+        DequeNode<Integer> node = (new DequeNode<>(1, new DequeNode<>(2, null, null), new DequeNode<>(2, null, null)));
+        list.append(node);
+
+        DequeNode<Integer> next = new DequeNode<>(7,null,null);
+        list.append(next);
+        list.append(new DequeNode<>(10,null,null));
+
+        assertEquals(node.getPrevious(),previous);
+        assertEquals(node.getNext(),next);
+        assertEquals(5,list.size());
+
+    }
+
+    //Tests de appendLeft
+    @Test
+    public void appendLeftShouldThrowExceptionWhenNullNode() {
         assertThrows(RuntimeException.class, () -> list.appendLeft(null));
     }
 
     @Test
-    public void appendLeftNodeWhenEmptyListShouldSetNewNodeAsTheFirstOne() {
+    public void appendLeftShouldSetNewNodeAsTheFirstAndLastWhenEmptyList() {
         DequeNode<Integer> expectedValue = new DequeNode<>(1, null, null);
         list.appendLeft(expectedValue);
         DequeNode<Integer> obtainedValue = list.peekLast();
         assertEquals(expectedValue, obtainedValue);
+        obtainedValue = list.peekFirst();
+        assertEquals(expectedValue,obtainedValue);
     }
 
     @Test
-    public void appendLeftNodeWhenEmptyListShouldHaveSize1() {
-        int expectedValue = 1;
-        list.appendLeft(new DequeNode<>(1, null, null));
-        int obtainedValue = list.size();
-        assertEquals(expectedValue, obtainedValue);
-    }
-
-    @Test
-    public void appendLeftNodeWhenOnlyOneElementIsInTheListShouldSetNewNodeAsTheFirstOne() {
+    public void appendLeftShouldSetNewNodeAsTheFirstOneWhenListSize1() {
         DequeNode<Integer> expectedValue = new DequeNode<>(2, null, null);
         list.appendLeft(new DequeNode<>(1, null, null));
         list.appendLeft(expectedValue);
@@ -128,16 +126,7 @@ class DoubleLinkedListQueueTest {
     }
 
     @Test
-    public void appendLeftNodeWhenOnlyOneElementIsInTheListShouldHaveSize2() {
-        int expectedValue = 2;
-        list.appendLeft(new DequeNode<>(1, null, null));
-        list.appendLeft(new DequeNode<>(2, null, null));
-        int obtainedValue = list.size();
-        assertEquals(expectedValue, obtainedValue);
-    }
-
-    @Test
-    public void appendLeftNodeShouldSetNewNodeAsTheFirstOne() {
+    public void appendLeftShouldSetNewNodeAsTheFirstOne() {
         list.appendLeft(new DequeNode<>(1, null, null));
         list.appendLeft(new DequeNode<>(2, null, null));
         list.appendLeft(new DequeNode<>(3, null, null));
@@ -145,55 +134,68 @@ class DoubleLinkedListQueueTest {
         DequeNode<Integer> expectedValue = new DequeNode<>(5, null, null);
         list.appendLeft(expectedValue);
         DequeNode<Integer> obtainedValue = list.peekFirst();
-        assertEquals(expectedValue, obtainedValue);
-    }
-
-    @Test
-    public void appendLeftNodeShouldIncrementSizeBy1() {
-        list.appendLeft(new DequeNode<>(1, null, null));
-        list.appendLeft(new DequeNode<>(2, null, null));
-        list.appendLeft(new DequeNode<>(3, null, null));
-        list.appendLeft(new DequeNode<>(4, null, null));
-        int expectedValue = list.size() + 1;
-        list.appendLeft(new DequeNode<>(5, null, null));
-        int obtainedValue = list.size();
         assertEquals(expectedValue, obtainedValue);
     }
 
     @Test
     public void appendLeftShouldDoNothingIfNodeIsThere(){
-        DequeNode<Integer> node = new DequeNode<>(1,null,null);
-        list.append(node);
-        list.append(node);
-        list.append(node);
-        list.append(node);
+        DequeNode<Integer> expectedValue = new DequeNode<>(1,null,null);
+        list.appendLeft(expectedValue);
+        list.appendLeft(expectedValue);
+        list.appendLeft(expectedValue);
+        list.appendLeft(expectedValue);
         DequeNode<Integer> obtainedValue = list.peekLast();
-        assertEquals(node, obtainedValue);
+        assertEquals(expectedValue, obtainedValue);
+        obtainedValue = list.peekFirst();
+        assertEquals(expectedValue,obtainedValue);
         assertEquals(1,list.size());
     }
 
+    @Test
+    public void appendLeftNodeWithReferencesToNextAndPreviousToEmptyListIgnoresReferences(){
+        DequeNode<Integer> next = new DequeNode<>(2, null, null);
+        DequeNode<Integer> previous = new DequeNode<>(2, null, null);
+        list.appendLeft(new DequeNode<>(1, next, previous));
 
+        assertEquals(list.peekFirst(),list.peekLast());
+        assertNull(list.peekFirst().getPrevious());
+        assertNull(list.peekLast().getNext());
+    }
+
+    @Test
+    public void appendLeftNodeWithReferencesToNextAndPreviousToListIgnoresReferences(){
+        list.append(new DequeNode<>(8,null,null));
+        DequeNode<Integer> next = new DequeNode<>(5,null,null);
+        list.appendLeft(next);
+
+        DequeNode<Integer> node = (new DequeNode<>(1, new DequeNode<>(2, null, null), new DequeNode<>(2, null, null)));
+        list.appendLeft(node);
+
+        DequeNode<Integer> previous = new DequeNode<>(7,null,null);
+        list.appendLeft(previous);
+        list.appendLeft(new DequeNode<>(10,null,null));
+
+        assertEquals(node.getPrevious(),previous);
+        assertEquals(node.getNext(),next);
+        assertEquals(5,list.size());
+
+    }
+
+
+    //Tests de deleteFirst
     @Test
     public void deleteFirstShouldThrowAnExceptionIfListIsEmpty() {
         assertThrows(RuntimeException.class, () -> list.deleteFirst());
     }
 
     @Test
-    public void deleteFirstWhenThereIsOnlyOneNodeShouldSetFirstAsNullNode() {
+    public void deleteFirstShouldSetFirstAndLastAsNullWhenThereIsOnlyOneNode() {
         list.append(new DequeNode<>(1, null, null));
         list.deleteFirst();
         assertNull(list.peekFirst());
         assertNull(list.peekLast());
     }
 
-    @Test
-    public void deleteFirstWhenThereIsOnlyOneNodeShouldReturnSize0() {
-        list.append(new DequeNode<>(1, null, null));
-        list.deleteFirst();
-        int expectedValue = 0;
-        int obtainedValue = list.size();
-        assertEquals(expectedValue, obtainedValue);
-    }
 
     @Test
     public void deleteFirstShouldSetSecondNodeAsTheFirstOne() {
@@ -205,37 +207,21 @@ class DoubleLinkedListQueueTest {
         assertEquals(expectedValue, obtainedValue);
     }
 
-    @Test
-    public void deleteFirstShouldDecreaseSizeBy1() {
-        list.append(new DequeNode<>(1, null, null));
-        list.append(new DequeNode<>(2, null, null));
-        list.deleteFirst();
-        int expectedValue = 1;
-        int obtainedValue = list.size();
-        assertEquals(expectedValue, obtainedValue);
-    }
 
+    //Tests de DeleteLast
     @Test
     public void deleteLastShouldThrowAnExceptionIfListIsEmpty() {
         assertThrows(RuntimeException.class, () -> list.deleteLast());
     }
 
     @Test
-    public void deleteLastWhenThereIsOnlyOneNodeShouldSetFirstAsNullNode() {
+    public void deleteLastShouldSetFirstAndLastAsNullWhenThereIsOnlyOneNode() {
         list.append(new DequeNode<>(1, null, null));
         list.deleteLast();
         assertNull(list.peekFirst());
         assertNull(list.peekLast());
     }
 
-    @Test
-    public void deleteLastWhenThereIsOnlyOneNodeShouldReturnSize0() {
-        list.append(new DequeNode<>(1, null, null));
-        list.deleteLast();
-        int expectedValue = 0;
-        int obtainedValue = list.size();
-        assertEquals(expectedValue, obtainedValue);
-    }
 
     @Test
     public void deleteLastShouldSetSecondToLastNodeAsTheLastOne() {
@@ -247,25 +233,90 @@ class DoubleLinkedListQueueTest {
         assertEquals(expectedValue, obtainedValue);
     }
 
+    //Tests de size
     @Test
-    public void deleteLastShouldDecreaseSizeBy1() {
-        list.append(new DequeNode<>(1, null, null));
-        list.append(new DequeNode<>(2, null, null));
-        list.deleteLast();
-        int expectedValue = 1;
+    public void sizeShouldReturn0WhenEmptyList() {
+        int expectedValue = 0;
         int obtainedValue = list.size();
         assertEquals(expectedValue, obtainedValue);
     }
 
     @Test
-    public void shouldThrowExceptionWhenGetAtNegativePosition() {
+    public void sizeShouldReturn1WhenOneNodeInTheList() {
+        int expectedValue = 1;
+        list.append(new DequeNode<>(1, null, null));
+        int obtainedValue = list.size();
+        assertEquals(expectedValue, obtainedValue);
+    }
+
+    @Test
+    public void sizeShouldReturn2WhenTwoNodesAppendedToTheList() {
+        int expectedValue = 2;
+        list.append(new DequeNode<>(1, null, null));
+        list.append(new DequeNode<>(2, null, null));
+        int obtainedValue = list.size();
+        assertEquals(expectedValue, obtainedValue);
+    }
+
+    @Test
+    public void sizeShouldReturn5WhenFiveNodesAppendedToTheList() {
+        int expectedValue = 5;
+        list.append(new DequeNode<>(1, null, null));
+        list.append(new DequeNode<>(2, null, null));
+        list.append(new DequeNode<>(3, null, null));
+        list.append(new DequeNode<>(4, null, null));
+        list.append(new DequeNode<>(5, null, null));
+        int obtainedValue = list.size();
+        assertEquals(expectedValue, obtainedValue);
+    }
+
+    @Test
+    public void sizeShouldIncrementByOneWhenAppendNode() {
+        list.append(new DequeNode<>(1, null, null));
+        list.append(new DequeNode<>(2, null, null));
+        list.append(new DequeNode<>(3, null, null));
+        list.append(new DequeNode<>(4, null, null));
+        int expectedValue = list.size() + 1;
+        list.append(new DequeNode<>(5, null, null));
+        int obtainedValue = list.size();
+        assertEquals(expectedValue, obtainedValue);
+    }
+
+    @Test
+    public void sizeShouldIncrementByOneWhenAppendLeftNode() {
+        list.append(new DequeNode<>(1, null, null));
+        list.append(new DequeNode<>(2, null, null));
+        list.append(new DequeNode<>(3, null, null));
+        list.append(new DequeNode<>(4, null, null));
+        int expectedValue = list.size() + 1;
+        list.appendLeft(new DequeNode<>(5, null, null));
+        int obtainedValue = list.size();
+        assertEquals(expectedValue, obtainedValue);
+    }
+
+    @Test
+    public void sizeShouldDecrementByOneWhenDeleteNode() {
+        DequeNode<Integer> node1 = new DequeNode<>(1, null, null);
+        list.append(node1);
+        list.append(new DequeNode<>(2, null, null));
+        list.append(new DequeNode<>(3, null, null));
+        list.append(new DequeNode<>(4, null, null));
+        int expectedValue = list.size() - 1;
+        list.delete(node1);
+        int obtainedValue = list.size();
+        assertEquals(expectedValue, obtainedValue);
+    }
+
+    //Tests de getAt
+    @Test
+    public void getAtShouldThrowExceptionWhenNegativePosition() {
         list.append(new DequeNode<>(1, null, null));
         list.append(new DequeNode<>(2, null, null));
         assertThrows(RuntimeException.class, () -> list.getAt(-2));
     }
 
     @Test
-    public void shouldThrowExceptionWhenGetAtOutOfBoundsPosition() {
+    public void getAtShouldThrowExceptionWhenOutOfBoundsPosition() {
         list.append(new DequeNode<>(1, null, null));
         list.append(new DequeNode<>(2, null, null));
         assertThrows(RuntimeException.class, () -> list.getAt(3));
@@ -305,7 +356,7 @@ class DoubleLinkedListQueueTest {
     }
 
 
-
+    //Tests de find
     @Test
     public void findShouldReturnNullWhenItemNotThere() {
         list.append(new DequeNode<>(1, null, null));
@@ -347,8 +398,21 @@ class DoubleLinkedListQueueTest {
         assertEquals(expectedValue,obtainedValue);
     }
 
+    @Test
+    public void findShouldReturnFirstNodeWithItemGiven(){
+        list.append(new DequeNode<>(1, null, null));
+        list.append(new DequeNode<>(2, null, null));
+        DequeNode<Integer> expectedValue = new DequeNode<>(6, null, null);
+        list.append(expectedValue);
+        list.append(new DequeNode<>(6, null, null));
+        list.append(new DequeNode<>(8, null, null));
+        list.append(new DequeNode<>(6, null, null));
+        DequeNode<Integer> obtainedValue = list.find(6);
+        assertEquals(expectedValue,obtainedValue);
+    }
 
 
+    //Tests de delete
     @Test
     public void deleteShouldDoNothingIfNodeIsNotInList(){
         list.append(new DequeNode<>(1, null, null));
@@ -374,9 +438,7 @@ class DoubleLinkedListQueueTest {
         DoubleLinkedListQueue<Integer> aux = new DoubleLinkedListQueue<>(list);
         list.delete(node);
 
-        int expectedValue = list.peekFirst().getItem();
-
-        assertNotEquals(expectedValue,node.getItem());
+        assertNotEquals(list.peekFirst(),node);
         for(int i=0;i<list.size();i++){
             assertEquals(list.getAt(i).getItem(),aux.getAt(i+1).getItem());
         }
@@ -394,9 +456,8 @@ class DoubleLinkedListQueueTest {
         DoubleLinkedListQueue<Integer> aux = new DoubleLinkedListQueue<>(list);
         list.delete(node);
 
-        int expectedValue = list.peekLast().getItem();
+        assertNotEquals(list.peekLast(),node);
 
-        assertNotEquals(expectedValue,node.getItem());
         for(int i=0;i<list.size();i++){
             assertEquals(list.getAt(i).getItem(),aux.getAt(i).getItem());
         }
@@ -421,9 +482,9 @@ class DoubleLinkedListQueueTest {
         assertEquals(list.size(),aux.size()-1);
     }
 
+    //Tests de sort
     @Test
     public void sortShouldDoNothingIfEmptyList(){
-        DoubleLinkedListQueue<Integer> aux = new DoubleLinkedListQueue<>(list);
         list.sort(new Comparator<Integer>() {
             @Override
             public int compare(Integer o1, Integer o2) {
@@ -431,12 +492,12 @@ class DoubleLinkedListQueueTest {
             }
         });
 
-        assertEquals(list.peekFirst(),aux.peekFirst());
+        assertNull(list.peekFirst());
     }
     @Test
     public void sortShouldDoNothingIfListSizeIsOne(){
-        list.append(new DequeNode<>(1,null,null));
-        DoubleLinkedListQueue<Integer> aux = new DoubleLinkedListQueue<>(list);
+        DequeNode<Integer> node = new DequeNode<>(1,null,null);
+        list.append(node);
         list.sort(new Comparator<Integer>() {
             @Override
             public int compare(Integer o1, Integer o2) {
@@ -444,8 +505,27 @@ class DoubleLinkedListQueueTest {
             }
         });
 
-        assertEquals(list.peekFirst().getItem(),aux.peekFirst().getItem());
-        assertEquals(list.size(),aux.size());
+        assertEquals(list.peekFirst(),node);
+        assertEquals(list.peekLast(),node);
+    }
+
+    @Test
+    public void sortShouldSortListSizeTwoByComparatorParameter(){
+        DequeNode<Integer> node1 = new DequeNode<>(1,null,null);
+        DequeNode<Integer> node2 = new DequeNode<>(4,null,null);
+
+        list.append(node2);
+        list.append(node1);
+
+        list.sort(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o1 - o2;
+            }
+        });
+
+        assertEquals(node1,list.peekFirst());
+        assertEquals(node2,list.peekLast());
     }
 
     @Test
@@ -479,27 +559,28 @@ class DoubleLinkedListQueueTest {
 
     @Test
     public void sortShouldSortListByComparatorParameter2(){
-        DequeNode<Integer> node1 = new DequeNode<>(1,null,null);
-        DequeNode<Integer> node2 = new DequeNode<>(2,null,null);
-        DequeNode<Integer> node3 = new DequeNode<>(3,null,null);
-        DequeNode<Integer> node4 = new DequeNode<>(4,null,null);
-        DequeNode<Integer> node5 = new DequeNode<>(5,null,null);
-        DequeNode<Integer> node6 = new DequeNode<>(6,null,null);
+        DequeNode<String> node1 = new DequeNode<>("1",null,null);
+        DequeNode<String> node2 = new DequeNode<>("22",null,null);
+        DequeNode<String> node3 = new DequeNode<>("333",null,null);
+        DequeNode<String> node4 = new DequeNode<>("4444",null,null);
+        DequeNode<String> node5 = new DequeNode<>("55555",null,null);
+        DequeNode<String> node6 = new DequeNode<>("666666",null,null);
 
-        list.append(node2);
-        list.append(node4);
-        list.append(node1);
-        list.append(node6);
-        list.append(node5);
-        list.append(node3);
+        DoubleLinkedListQueue<String> lista = new DoubleLinkedListQueue<>();
+        lista.append(node2);
+        lista.append(node4);
+        lista.append(node1);
+        lista.append(node6);
+        lista.append(node5);
+        lista.append(node3);
 
-        DoubleLinkedListQueue<Integer> aux = new DoubleLinkedListQueue<>(list);
+        DoubleLinkedListQueue<String> aux = new DoubleLinkedListQueue<>(lista);
 
 
-        list.sort(new Comparator<Integer>() {
+        lista.sort(new Comparator<String>() {
             @Override
-            public int compare(Integer o1, Integer o2) {
-                return o1 - o2;
+            public int compare(String o1, String o2) {
+                return o1.length() - o2.length();
             }
         });
 
@@ -509,18 +590,5 @@ class DoubleLinkedListQueueTest {
             assertEquals(list.getAt(i).getItem(),aux.getAt(array[i]).getItem());
 
         }
-        /*
-        assertNull(node1.getPrevious());
-        assertEquals(node2.getPrevious(),node1);
-        assertEquals(node3.getPrevious(),node2);
-        assertEquals(node4.getPrevious(),node3);
-        assertEquals(node5.getPrevious(),node4);
-        assertEquals(node6.getPrevious(),node5);
-         */
-
     }
-
-
-
-
 }
