@@ -477,6 +477,49 @@ class DoubleLinkedListQueueTest {
         }
     }
 
+    @Test
+    public void sortShouldSortListByComparatorParameter2(){
+        DequeNode<Integer> node1 = new DequeNode<>(1,null,null);
+        DequeNode<Integer> node2 = new DequeNode<>(2,null,null);
+        DequeNode<Integer> node3 = new DequeNode<>(3,null,null);
+        DequeNode<Integer> node4 = new DequeNode<>(4,null,null);
+        DequeNode<Integer> node5 = new DequeNode<>(5,null,null);
+        DequeNode<Integer> node6 = new DequeNode<>(6,null,null);
+
+        list.append(node2);
+        list.append(node4);
+        list.append(node1);
+        list.append(node6);
+        list.append(node5);
+        list.append(node3);
+
+        DoubleLinkedListQueue<Integer> aux = new DoubleLinkedListQueue<>(list);
+
+
+        list.sort(new Comparator<Integer>() {
+            @Override
+            public int compare(Integer o1, Integer o2) {
+                return o1 - o2;
+            }
+        });
+
+        int[] array = new int[]{2,0,5,1,4,3};
+
+        for(int i=0;i<list.size();i++){
+            assertEquals(list.getAt(i).getItem(),aux.getAt(array[i]).getItem());
+
+        }
+        /*
+        assertNull(node1.getPrevious());
+        assertEquals(node2.getPrevious(),node1);
+        assertEquals(node3.getPrevious(),node2);
+        assertEquals(node4.getPrevious(),node3);
+        assertEquals(node5.getPrevious(),node4);
+        assertEquals(node6.getPrevious(),node5);
+         */
+
+    }
+
 
 
 
