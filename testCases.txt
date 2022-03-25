@@ -1,21 +1,21 @@
 #DequeNodeTest
-1. GetItem deberá devolver el item del nodo.
-2. GetNext deberá devolver el nodo siguiente.
-3. GetPrevious deberá devolver el nodo anterior.
+1. GetItem deberá devolver el item del nodo
+2. GetNext deberá devolver el nodo siguiente
+3. GetPrevious deberá devolver el nodo anterior
 
-4. SetItem deberá modificar el item del nodo.
-5. SetNext deberá modificar el nodo siguiente.
-6. SetPrevious deberá modificar el nodo anterior.
+4. SetItem deberá modificar el item del nodo
+5. SetNext deberá modificar el nodo siguiente
+6. SetPrevious deberá modificar el nodo anterior
 
-7. isFirst deberá devolver True si el previo es null.
-8. isFirst deberá devolver False si el previo no es null.
-9. isLast deberá devolver True si el siguiente es null.
-10. isLast deberá devolver False si el siguiente no es null.
+7. isFirst deberá devolver True si el previo es null
+8. isFirst deberá devolver False si el previo no es null
+9. isLast deberá devolver True si el siguiente es null
+10. isLast deberá devolver False si el siguiente no es null
 
-11. isNotATerminalNode deberá devolver True si el previo y el siguiente no son null.
-12. isNotATerminalNode deberá devolver False si el siguiente es null.
-13. isNotATerminalNode deberá devolver False si el anterior es null.
-14. isNotATerminalNode deberá devolver False si el anterior y el siguiente son null.
+11. isNotATerminalNode deberá devolver True si el previo y el siguiente no son null
+12. isNotATerminalNode deberá devolver False si el siguiente es null
+13. isNotATerminalNode deberá devolver False si el anterior es null
+14. isNotATerminalNode deberá devolver False si el anterior y el siguiente son null
 
 #DoubleLinkedListQueue
 
@@ -34,10 +34,10 @@ DeleteFirst y DeleteLast
 10. Eliminar en una lista con varios nodos
 
 Size
-11. Lista vacía deberá tener tamaño cero.
-12. Lista con un nodo deberá tener tamaño uno.
-13. Lista con dos nodos deberá tener tamaño dos.
-14. Lista con 5 nodos deberá tener tamaño 5.
+11. Lista vacía deberá tener tamaño cero
+12. Lista con un nodo deberá tener tamaño uno
+13. Lista con dos nodos deberá tener tamaño dos
+14. Lista con 5 nodos deberá tener tamaño 5
 15. Tamaño deberá incremenetar en uno cuando hacemos append
 16. Tamaño deberá incrementar en uno cuando hacemos appendLeft
 17. Tamaño deberá decrementar en uno cuando hacemos delete
