@@ -2,9 +2,7 @@ package org.Laboratorio2;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import static org.assertj.core.api.Assertions.*;
 import java.util.Comparator;
-import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class DoubleLinkedListQueueTest {
@@ -485,12 +483,7 @@ class DoubleLinkedListQueueTest {
     //Tests de sort
     @Test
     public void sortShouldDoNothingIfEmptyList(){
-        list.sort(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return o1 - o2;
-            }
-        });
+        list.sort(Comparator.comparingInt(o -> o));
 
         assertNull(list.peekFirst());
     }
@@ -498,12 +491,7 @@ class DoubleLinkedListQueueTest {
     public void sortShouldDoNothingIfListSizeIsOne(){
         DequeNode<Integer> node = new DequeNode<>(1,null,null);
         list.append(node);
-        list.sort(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return o1 - o2;
-            }
-        });
+        list.sort(Comparator.comparingInt(o -> o));
 
         assertEquals(list.peekFirst(),node);
         assertEquals(list.peekLast(),node);
@@ -517,12 +505,7 @@ class DoubleLinkedListQueueTest {
         list.append(node2);
         list.append(node1);
 
-        list.sort(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return o1 - o2;
-            }
-        });
+        list.sort(Comparator.comparingInt(o -> o));
 
         assertEquals(node1,list.peekFirst());
         assertEquals(node2,list.peekLast());
@@ -543,12 +526,7 @@ class DoubleLinkedListQueueTest {
         DoubleLinkedListQueue<Integer> aux = new DoubleLinkedListQueue<>(list);
 
 
-        list.sort(new Comparator<Integer>() {
-            @Override
-            public int compare(Integer o1, Integer o2) {
-                return o1 - o2;
-            }
-        });
+        list.sort(Comparator.comparingInt(o -> o));
 
         int[] array = new int[]{3,1,0,2};
 
@@ -577,18 +555,11 @@ class DoubleLinkedListQueueTest {
         DoubleLinkedListQueue<String> aux = new DoubleLinkedListQueue<>(lista);
 
 
-        lista.sort(new Comparator<String>() {
-            @Override
-            public int compare(String o1, String o2) {
-                return o1.length() - o2.length();
-            }
-        });
+        lista.sort(Comparator.comparingInt(String::length));
 
         int[] array = new int[]{2,0,5,1,4,3};
 
-        for(int i=0;i<list.size();i++){
-            assertEquals(list.getAt(i).getItem(),aux.getAt(array[i]).getItem());
-
-        }
+        for(int i=0;i<lista.size();i++)
+            assertEquals(lista.getAt(i).getItem(), aux.getAt(array[i]).getItem());
     }
 }
